@@ -42,14 +42,12 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_train, y_train)):
     print(train_x.shape, train_y.shape)
 
     model = build_ann_model()
-    # model.summary()
     callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=10)
     model.compile(optimizer=Adam(learning_rate=5e-5)
                   , loss='sparse_categorical_crossentropy', metrics=['accuracy'])
     history = model.fit(train_x, train_y, validation_data=(val_x, val_y), epochs=1000, batch_size=128, verbose=0,
                         callbacks=[callback])
     print(callback.stopped_epoch)
-    # break
     model.evaluate(train_x, train_y)
     model.evaluate(X_test, y_test)
     pred_val = np.argmax(model.predict(val_x), axis=-1)
