@@ -11,9 +11,9 @@ from compare import compare
 from utils import data_aug, plot_history
 from models import build_cnn2_model
 
-# os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
-# physical_devices = tf.config.list_physical_devices("GPU")
-# tf.config.experimental.set_memory_growth(physical_devices[0], True)
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+physical_devices = tf.config.list_physical_devices("GPU")
+tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 train = pd.read_csv('input/train.csv')
 test = pd.read_csv('input/test.csv')
@@ -77,7 +77,7 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_train, y_train)):
             ans['Label'] = pred_test
             fans = test_score
 
-    plot_history(history)
+    # plot_history(history)
 
 print(models)
 ans.to_csv('./output/sub_cnn.csv', index=False)

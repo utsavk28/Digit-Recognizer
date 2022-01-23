@@ -11,9 +11,9 @@ from compare import compare
 from utils import plot_history
 from models import build_ann_model
 
-# os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
-# physical_devices = tf.config.list_physical_devices("GPU")
-# tf.config.experimental.set_memory_growth(physical_devices[0], True)
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+physical_devices = tf.config.list_physical_devices("GPU")
+tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 train = pd.read_csv('input/train.csv')
 test = pd.read_csv('input/test.csv')
@@ -45,7 +45,7 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_train, y_train)):
     callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=10)
     model.compile(optimizer=Adam(learning_rate=5e-5)
                   , loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-    history = model.fit(train_x, train_y, validation_data=(val_x, val_y), epochs=1000, batch_size=128, verbose=0,
+    history = model.fit(train_x, train_y, validation_data=(val_x, val_y), epochs=2, batch_size=128, verbose=0,
                         callbacks=[callback])
     print(callback.stopped_epoch)
     model.evaluate(train_x, train_y)
@@ -64,7 +64,7 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_train, y_train)):
         if test_score > fans:
             ans['Label'] = pred_test
             fans = test_score
-    plot_history(history)
+    # plot_history(history)
 
 print(models)
 ans.to_csv('./output/sub_ann.csv', index=False)
