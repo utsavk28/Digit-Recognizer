@@ -55,8 +55,8 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_train, y_train)):
 
     model = build_cnn2_model()
     callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=10)
-    model.compile(optimizer=Adam(learning_rate=3e-4)
-                  , loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=Adam(learning_rate=3e-4),
+                  loss='sparse_categorical_crossentropy', metrics=['accuracy'])
     history = model.fit(train_x, train_y, validation_data=(val_x, val_y), epochs=250, batch_size=128, verbose=1,
                         callbacks=[callback])
 

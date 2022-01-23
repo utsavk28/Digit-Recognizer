@@ -21,7 +21,8 @@ sample_submission = pd.read_csv('input/sample_submission.csv')
 
 X = train.drop(columns=['label'], axis=1)
 y = train['label']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=2000, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=2000, random_state=42)
 X_train = X_train.astype("float32") / 255.0
 X_test = X_test.astype("float32") / 255.0
 
@@ -45,17 +46,19 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_train, y_train)):
 
     model = build_cnn_model()
     callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=10)
-    model.compile(optimizer=Adam(learning_rate=3e-5)
-                  , loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-    history = model.fit(train_x, train_y, validation_data=(val_x, val_y), epochs=250, batch_size=256, verbose=0,
+    model.compile(optimizer=Adam(learning_rate=3e-4),
+                  loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+    history = model.fit(train_x, train_y, validation_data=(val_x, val_y), epochs=250, batch_size=256, verbose=1,
                         callbacks=[callback])
     model.evaluate(val_x, val_y)
     pred_val = np.argmax(model.predict(val_x), axis=-1)
-    pred_test = np.argmax(model.predict(X_test.values.reshape(-1, 28, 28)), axis=-1)
+    pred_test = np.argmax(model.predict(
+        X_test.values.reshape(-1, 28, 28)), axis=-1)
     test_score = accuracy_score(y_test.values, pred_test, )
     models.append((fold, model, accuracy_score(val_y, pred_val, ), test_score))
 
-    pred_test = np.argmax(model.predict(test.values.reshape(-1, 28, 28)), axis=-1)
+    pred_test = np.argmax(model.predict(
+        test.values.reshape(-1, 28, 28)), axis=-1)
     if fans is None:
         ans['Label'] = pred_test
         fans = test_score

@@ -21,7 +21,8 @@ sample_submission = pd.read_csv('input/sample_submission.csv')
 
 X = train.drop(columns=['label'], axis=1)
 y = train['label']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=2000, random_state=42, stratify=y)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=2000, random_state=42, stratify=y)
 X_train = X_train.astype("float32") / 255.0
 X_test = X_test.astype("float32") / 255.0
 
@@ -43,8 +44,8 @@ for fold, (train_idx, val_idx) in enumerate(kf.split(X_train, y_train)):
 
     model = build_ann_model()
     callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=10)
-    model.compile(optimizer=Adam(learning_rate=5e-5)
-                  , loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=Adam(learning_rate=5e-5),
+                  loss='sparse_categorical_crossentropy', metrics=['accuracy'])
     history = model.fit(train_x, train_y, validation_data=(val_x, val_y), epochs=2, batch_size=128, verbose=0,
                         callbacks=[callback])
     print(callback.stopped_epoch)

@@ -6,7 +6,7 @@ from keras.layers import Flatten, Input
 from keras.regularizers import l2
 
 
-def build_ann_model() :
+def build_ann_model():
     return Sequential(
         [
             Dense(32, input_shape=(784,), kernel_initializer='he_uniform',
@@ -21,6 +21,7 @@ def build_ann_model() :
             Dense(10, activation='softmax')
         ]
     )
+
 
 def build_cnn_model():
     return Sequential(
@@ -81,5 +82,3 @@ def build_cnn2_model():
             Dense(10, activation='softmax')
         ]
     )
-
-
