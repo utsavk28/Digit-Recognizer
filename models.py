@@ -9,12 +9,12 @@ from keras.regularizers import l2
 def build_ann_model():
     return Sequential(
         [
-            Dense(32, input_shape=(784,), kernel_initializer='he_uniform',
+            Dense(64, input_shape=(784,), kernel_initializer='he_uniform',
                   kernel_regularizer=tf.keras.regularizers.l2(0.01)),
             BatchNormalization(),
             ReLU(),
             Dropout(0.1),
-            Dense(16, kernel_regularizer=tf.keras.regularizers.l2(0.01)),
+            Dense(32, kernel_regularizer=tf.keras.regularizers.l2(0.01)),
             BatchNormalization(),
             ReLU(),
             Dropout(0.1),
