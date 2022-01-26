@@ -4,4 +4,4 @@ Contain 3 files :
 - test.csv
 - sample_submission.csv
 
-You can download these files from [link](https://www.kaggle.com/c/digit-recognizer/data)
+You can download these files from [here](https://www.kaggle.com/c/digit-recognizer/data)
